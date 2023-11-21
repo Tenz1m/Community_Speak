@@ -253,14 +253,18 @@ const PostItem: React.FC<PostItemContentProps> = ({
             
           )}
           <Flex justify="flex-end" >
-      <Text marginTop="4" marginLeft="4" fontSize="md" fontWeight="bold" color="#1a18ab">
-        {/* {post.userDisplayText} */}
-        <Center>
+          {post.createdAt && (
+        <Text as='b' textTransform="uppercase" color="Blue" ml="3" fontSize="14pt" fontWeight={600}>
+          {/* Posted by {post.userDisplayText}  */}
+          {/* ({post.creatorUsername}) / */}
+          <Center>
         <Text>Posted <br /></Text>
         </Center>
-        {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
-      </Text>
-          </Flex>
+          {post.createdAt?.seconds &&
+            moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
+        </Text>
+           )}
+           </Flex>
         </Flex>
       </Flex>
     </Flex>
