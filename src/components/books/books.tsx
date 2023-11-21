@@ -3,7 +3,7 @@ import { Box, Heading, SimpleGrid, Select, Center, Text } from "@chakra-ui/react
 import axios from "axios";
 import BookItem from "../books/item"; // Assuming BookItem is in a separate file
 
-const imageStyle = {
+const imageStyle: React.CSSProperties = {
   width: '120px',
   height: '120px',
   borderRadius: '10px',
@@ -11,8 +11,8 @@ const imageStyle = {
   marginLeft: '15px',
   top: '100px',
   right: '50px',
-
 };
+
 
 
 interface Book {
