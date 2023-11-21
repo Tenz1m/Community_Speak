@@ -1,0 +1,10 @@
+/* components/MyComponent.module.css */
+
+.redBox {
+    background-color: red;
+    padding: 16px;
+    border: 1px solid black;
+    color: white;
+    border-radius: 8px;
+  }
+  
