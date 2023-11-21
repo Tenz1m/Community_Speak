@@ -34,7 +34,7 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
         {/* If user is logged in, icons are shown
         If user is not logged in, authentication buttons are shown */}
         {user ? <Icons /> : <AuthButtons />}
-        <UserMenu user={user} css={{ fontSize: '20px' }} />
+        <UserMenu user={user}  />
 
       </Flex>
     </>
