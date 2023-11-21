@@ -46,8 +46,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, handleClose }) => {
   const [user] = useAuthState(auth);
   const [updateProfile, updating, error] = useUpdateProfile(auth);
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile(
-    300,
-    300
+
   );
   const selectFileRef = useRef<HTMLInputElement>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
