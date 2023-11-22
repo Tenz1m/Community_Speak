@@ -1,7 +1,6 @@
 import { Box,Image } from "@chakra-ui/react";
 import { NextPage } from "next";
 import PageContentLayout from "../../../components/Layout/PageContent";
-import MyComponent2 from "@/components/map/MyComponent2";
 import Quiz from "@/components/quiz/Quiz";
 
 const CreateCommmunityPostPage: NextPage = () => {
@@ -26,7 +25,7 @@ const CreateCommmunityPostPage: NextPage = () => {
           <br /><br /><br />
           {/* <DigitalClock /> */}
           <br />
-          <MyComponent2 />
+          {/* <MyComponent2 /> */}
           <br />
           <Image
             style={{ width: "500px", height: "300px" }}
