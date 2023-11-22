@@ -1,13 +1,8 @@
-import { Box, Text, Image } from "@chakra-ui/react";
+import { Box,Image } from "@chakra-ui/react";
 import { NextPage } from "next";
 import PageContentLayout from "../../../components/Layout/PageContent";
-import DigitalClock from "@/components/extra/DigitalClock";
-import MyComponent from "@/components/map/MyComponent";
-import RealtimeLocationTracker from "@/components/map/map";
 import MyComponent2 from "@/components/map/MyComponent2";
 import Quiz from "@/components/quiz/Quiz";
-import CrudTable from "@/components/quiz/Crud";
-import CommunityChat from "@/components/quiz/Crud";
 
 const CreateCommmunityPostPage: NextPage = () => {
   const pageStyle = {
