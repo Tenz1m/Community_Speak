@@ -1,4 +1,3 @@
-import { user } from "firebase-functions/v1/auth";
 import { query, collection, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase/clientApp";
 
