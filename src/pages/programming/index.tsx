@@ -1,26 +1,34 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Heading, Text, Link, SimpleGrid, Center, Icon } from '@chakra-ui/react';
 import { LiaQuestionSolid } from "react-icons/lia";
 
-// Define an array of border colors
-const borderColors = ['#FF5733', '#3371FF', '#33FF57', '#FF33DC', '#FFC833'];
+interface Problem {
+  name: string;
+  contestId: number;
+  index: string;
+  // Add other properties as needed
+}
 
-const getRandomColor = () => {
-  // Generate a random index within the range of the borderColors array
-  const randomIndex = Math.floor(Math.random() * borderColors.length);
-  // Return the color at the random index
-  return borderColors[randomIndex];
-};
+interface CodeforcesApiResponse {
+  result: {
+    problems: Problem[];
+  };
+  // Add other properties as needed
+}
 
-const CodingQuestions = () => {
-  const [questions, setQuestions] = useState([]);
+interface CodingQuestionsProps {
+  // Add any additional props if needed
+}
+
+const CodingQuestions: React.FC<CodingQuestionsProps> = () => {
+  const [questions, setQuestions] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://codeforces.com/api/problemset.problems');
+        const response = await axios.get<CodeforcesApiResponse>('https://codeforces.com/api/problemset.problems');
         setQuestions(response.data.result.problems);
         setLoading(false);
       } catch (error) {
@@ -32,12 +40,19 @@ const CodingQuestions = () => {
     fetchData();
   }, []);
 
+  const borderColors = ['#FF5733', '#3371FF', '#33FF57', '#FF33DC', '#FFC833'];
+
+  const getRandomColor = () => {
+    const randomIndex = Math.floor(Math.random() * borderColors.length);
+    return borderColors[randomIndex];
+  };
+
   return (
     <div>
-<Heading as="h1" size="2xl" mb={5} textAlign="center" mx="auto" fontWeight="bold" fontFamily="unique-font">
-  Coding Questions
-  <Icon as={LiaQuestionSolid} mr={2} />
-</Heading>
+      <Heading as="h1" size="2xl" mb={5} textAlign="center" mx="auto" fontWeight="bold" fontFamily="unique-font">
+        Coding Questions
+        <Icon as={LiaQuestionSolid} mr={2} />
+      </Heading>
       {loading ? (
         <Center h="100vh">
           <p>Loading questions...</p>
@@ -51,10 +66,10 @@ const CodingQuestions = () => {
               borderWidth="1px"
               borderRadius="lg"
               p={4}
-              borderColor={getRandomColor()} // Assign a random border color
+              borderColor={getRandomColor()}
               _hover={{
-                borderColor: 'blue.500', // Change border color on hover
-                bg: '#F3EE35', // Change background color on hover
+                borderColor: 'blue.500',
+                bg: '#F3EE35',
               }}
             >
               <Heading as="h2" size="md" mb={2}>
