@@ -1,15 +1,13 @@
+import { CSSProperties } from "react";
 import { useState } from "react";
 import { NextPage } from "next";
 import { Box, Input, Button, Center, Image } from "@chakra-ui/react";
-import CrudTable from "@/components/crud/Crud";
-import PostTable from "@/components/crud/Crud2";
 
 const CreateCommunityPostPage: NextPage = () => {
   const [accessCode, setAccessCode] = useState("");
   const [isAccessGranted, setIsAccessGranted] = useState(false);
 
   const checkAccessCode = () => {
-    
     if (accessCode === "Admin") {
       setIsAccessGranted(true);
     } else {
@@ -17,8 +15,8 @@ const CreateCommunityPostPage: NextPage = () => {
     }
   };
 
-  const pageStyle = {
-    backgroundImage: 'url("https://wso2.com/files/fullsizeoutput_247.jpeg")', // Replace with the path to your image
+  const pageStyle: CSSProperties = {
+    backgroundImage: 'url("https://wso2.com/files/fullsizeoutput_247.jpeg")',
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -42,7 +40,7 @@ const CreateCommunityPostPage: NextPage = () => {
             onChange={(e) => setAccessCode(e.target.value)}
             mb="4"
             size="lg"
-            bg="white" 
+            bg="white"
             color="red"
           />
           <Center>
@@ -58,18 +56,18 @@ const CreateCommunityPostPage: NextPage = () => {
   return (
     <div style={pageStyle}>
       <div style={{ display: "flex", flexDirection: "column" }}>
-      <Box w="1280px" h="190px" mb="38" >
-        <Center>
-        <Image src="/images/dashboard.jpg" alt="Dashboard" />
-        </Center>
-      </Box>
+        <Box w="1280px" h="190px" mb="38">
+          <Center>
+            <Image src="/images/dashboard.jpg" alt="Dashboard" />
+          </Center>
+        </Box>
         <br /><br />
         <Center>
-        <CrudTable />
+          {/* <CrudTable /> */}
         </Center>
         <br />
         <center>
-        <PostTable/>
+          {/* <PostTable/> */}
         </center>
       </div>
     </div>
