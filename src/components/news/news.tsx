@@ -1,9 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Heading, SimpleGrid, Select, Center } from "@chakra-ui/react";
 import axios from "axios";
 import NewsItem from "../news/item"; // Assuming NewsItem is in a separate file
 
-const imageStyle = {
+interface Article {
+  title: string;
+  description: string;
+  urlToImage: string;
+  url: string;
+}
+
+const imageStyle: React.CSSProperties = {
   width: '120px',
   height: '120px',
   borderRadius: '10px',
@@ -11,14 +18,12 @@ const imageStyle = {
   marginLeft: '15px',
   top: '100px',
   right: '50px',
-
 };
 
-
-const NewsComponent = () => {
-  const [news, setNews] = useState([]);
-  const [category, setCategory] = useState("business"); // Default category
-  const [country, setCountry] = useState("us"); // Default country
+const NewsComponent: React.FC = () => {
+  const [news, setNews] = useState<Article[]>([]);
+  const [category, setCategory] = useState<string>("business"); // Default category
+  const [country, setCountry] = useState<string>("us"); // Default country
   const apiKey = "e3684bd3343042cbb5db705eaaf88484";
 
   useEffect(() => {
@@ -34,11 +39,11 @@ const NewsComponent = () => {
       });
   }, [country, category]);
 
-  const handleCategoryChange = (event) => {
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
   };
 
-  const handleCountryChange = (event) => {
+  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCountry(event.target.value);
   };
 
@@ -46,9 +51,9 @@ const NewsComponent = () => {
     <Box p={4} bg="white" boxShadow="md" borderRadius="md">
       <img src="/images/Face.png" alt="Dashboard" style={imageStyle} />
       <Center>
-      <Heading as="h2" size="lg" mb={4}>
-        Top {category.charAt(0).toUpperCase() + category.slice(1)} News from {country.toUpperCase()}
-      </Heading>
+        <Heading as="h2" size="lg" mb={4}>
+          Top {category.charAt(0).toUpperCase() + category.slice(1)} News from {country.toUpperCase()}
+        </Heading>
       </Center> 
       <Select
         value={category}
@@ -73,7 +78,7 @@ const NewsComponent = () => {
         <option value="gb">United Kingdom</option>
         <option value="ca">Canada</option>
         <option value="in">Bangladesh</option>
-        <option value="pk">pakistan</option>
+        <option value="pk">Pakistan</option>
         <option value="ru">Russia</option>
         {/* Add more country options as needed */}
       </Select>
