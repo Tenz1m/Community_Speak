@@ -41,7 +41,7 @@ const Communities: React.FC<CommunitiesProps> = ({ menuOpen }) => {
             .map((snippet) => (
               <MenuListItem
                 key={snippet.communityId}
-                displayText={`r/${snippet.communityId}`}
+                displayText={`r/${snippet.name?snippet.name:snippet.communityId}`}
                 link={`/r/${snippet.communityId}`}
                 icon={MdAddModerator}
                 iconColor="Green"
@@ -68,7 +68,7 @@ const Communities: React.FC<CommunitiesProps> = ({ menuOpen }) => {
           <MenuListItem
             key={snippet.communityId}
             icon={HiUserGroup}
-            displayText={`r/${snippet.communityId}`}
+            displayText={`r/${snippet.name?snippet.name:snippet.communityId}`}
             link={`/r/${snippet.communityId}`}
             iconColor="blue.500"
             imageURL={snippet.imageURL}

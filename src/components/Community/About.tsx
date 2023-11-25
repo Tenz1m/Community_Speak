@@ -116,6 +116,7 @@ const About: React.FC<AboutProps> = ({
           description: newDescription,
         },
       }));
+      window.location.reload();
     } catch (error: any) {
       console.log("updateDescription error", error.message);
     }
@@ -133,7 +134,8 @@ const About: React.FC<AboutProps> = ({
         const updateName = async () => {
           try {
             await updateDoc(doc(firestore, "communities", communityData.id), {
-              name: newName,
+              
+             name: newName,
             });
           
                 setCommunityStateValue((prev) => ({
@@ -143,6 +145,7 @@ const About: React.FC<AboutProps> = ({
                     name: newName,
                   },
                 }));
+                window.location.reload();
               } catch (error: any) {
                 console.log("updateName error", error.message);
               }
@@ -160,7 +163,7 @@ const About: React.FC<AboutProps> = ({
         borderRadius="4px 4px 0px 0px"
       >
         <Text fontSize="15pt" fontWeight={800} mr={4}>
-          {communityData.id}
+        {communityData.name ? communityData.name : communityData.id}
         </Text>
         <Text fontSize="10pt" fontWeight={700}>
           About Community
@@ -189,7 +192,7 @@ const About: React.FC<AboutProps> = ({
                 cursor="pointer"
               >
                 <Text fontSize="15pt" fontWeight={900}>
-                  Welcome to [{communityData.id}] community!
+                  Welcome to [{communityData.name ? communityData.name : communityData.id}] community!
                 </Text>
               </Box>
             )}
@@ -270,7 +273,7 @@ const About: React.FC<AboutProps> = ({
                 </>
               ) : (
                 <Text fontSize="15pt" fontWeight={900}>
-                  {communityData.name}
+                  {communityData.name ? communityData.name : communityData.id}
                 </Text>
               )}
             </Box>
@@ -326,7 +329,7 @@ const About: React.FC<AboutProps> = ({
   </center>
                <Center>
                 <Text fontSize="15pt" fontWeight={900}>
-                 {communityData.name}
+                {communityData.name ? communityData.name : communityData.id}
                 </Text>
                </Center>
                <Center>
