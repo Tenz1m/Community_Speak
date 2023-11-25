@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Box, Flex, Icon, MenuItem, Text } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { FaReddit } from "react-icons/fa";
-import { FaRegObjectGroup } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi";
 import { MdAddModerator } from "react-icons/md";
 import { GrAdd } from "react-icons/gr";
@@ -40,7 +38,7 @@ const Communities: React.FC<CommunitiesProps> = ({ menuOpen }) => {
             .filter((item) => item.isModerator)
             .map((snippet) => (
               <MenuListItem
-                key={snippet.communityId}
+                key={snippet.name? snippet.name: snippet.communityId}
                 displayText={`r/${snippet.name?snippet.name:snippet.communityId}`}
                 link={`/r/${snippet.communityId}`}
                 icon={MdAddModerator}
@@ -66,9 +64,9 @@ const Communities: React.FC<CommunitiesProps> = ({ menuOpen }) => {
         </MenuItem>
         {mySnippets.map((snippet) => (
           <MenuListItem
-            key={snippet.communityId}
+            key={snippet.name? snippet.name: snippet.communityId}
             icon={HiUserGroup}
-            displayText={`r/${snippet.name?snippet.name:snippet.communityId}`}
+            displayText={`r/${snippet.name? snippet.name: snippet.communityId}`}
             link={`/r/${snippet.communityId}`}
             iconColor="blue.500"
             imageURL={snippet.imageURL}
