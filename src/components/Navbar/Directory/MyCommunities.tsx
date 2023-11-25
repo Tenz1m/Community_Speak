@@ -31,8 +31,8 @@ const MyCommunities: React.FC<MyCommunitiesProps> = ({ snippets, setOpen }) => {
       </MenuItem>
       {snippets.map((snippet) => (
         <MenuListItem
-          key={snippet.communityId}
-          displayText={`r/${snippet.communityId}`}
+          key={snippet.name? snippet.name: snippet.communityId }
+          displayText={`r/${snippet.name? snippet.name: snippet.communityId }`}
           link={`r/${snippet.communityId}`}
           icon={HiUserGroup}
           iconColor="blue.500"
