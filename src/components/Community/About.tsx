@@ -23,11 +23,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, firestore, storage } from "../../firebase/clientApp";
 import { Community, communityState } from "../../atoms/communitiesAtom";
 import moment from "moment";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { FaReddit } from "react-icons/fa";
+import {useSetRecoilState } from "recoil";
+
 import { ImMakeGroup } from "react-icons/im";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 // ... (previous imports)
   const imageStyle = {
@@ -150,7 +150,21 @@ const About: React.FC<AboutProps> = ({
                 console.log("updateName error", error.message);
               }
             };
-      
+            
+      // Name Change Logic
+            const deleteCommunity = async () => {
+              try {
+                // Add your logic to delete the community
+                // For example, you can use the deleteDoc function from Firestore
+                await deleteDoc(doc(firestore, "communities", communityData.id));
+          
+                // After deleting, redirect to the homepage or any other page
+                router.push("/");
+              } catch (error: any) {
+                console.log("deleteCommunity error", error.message);
+              }
+            };
+          
       
   return (
     <Box pt={pt} position="sticky" top="14px">
@@ -279,7 +293,40 @@ const About: React.FC<AboutProps> = ({
             </Box>
 
             <Divider />
+            <Box pt={pt} position="sticky" top="14px">
+      {/* ... (existing code) */}
+      <Divider />
 
+      {/* Delete Community Button */}
+      {user?.uid === communityData?.creatorId && (
+  <Box
+    bg="blue.200"
+    width="100%"
+    p={4}
+    borderRadius={8}
+    boxShadow="lg"
+    cursor="pointer"
+    _hover={{ bg: "blue.300" }}
+  >
+    <Text fontSize="18px" fontWeight={900} color="white">
+      Delete Community
+    </Text>
+    <Divider my={2} />
+    <Button
+      mt={3}
+      height="40px"
+      fontSize="14px"
+      colorScheme="red"
+      variant="solid"
+      onClick={deleteCommunity}
+    >
+      Delete
+    </Button>
+  </Box>
+)}
+
+      {/* ... (existing code) */}
+    </Box>
             <Stack spacing={2}>
   <Flex width="100%" p={2} fontWeight={600} fontSize="10pt">
     <Flex direction="column" flexGrow={1}>
