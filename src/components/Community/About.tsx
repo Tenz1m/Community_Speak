@@ -293,9 +293,7 @@ const About: React.FC<AboutProps> = ({
             </Box>
 
             <Divider />
-            <Box pt={pt} position="sticky" top="14px">
-      {/* ... (existing code) */}
-      <Divider />
+            <Divider />
 
       {/* Delete Community Button */}
       {user?.uid === communityData?.creatorId && (
@@ -325,8 +323,10 @@ const About: React.FC<AboutProps> = ({
   </Box>
 )}
 
-      {/* ... (existing code) */}
-    </Box>
+            <Divider />
+            <Divider />
+
+
             <Stack spacing={2}>
   <Flex width="100%" p={2} fontWeight={600} fontSize="10pt">
     <Flex direction="column" flexGrow={1}>
