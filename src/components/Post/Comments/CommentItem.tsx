@@ -104,7 +104,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
             fontFamily="Body Font Name"
             fontSize="18pt"
             fontWeight={700}
-            _hover={{ textDecoration: "underline", cursor: "pointer" }}
+            
           >
             {comment.creatorDisplayText}
           </Text>
@@ -130,7 +130,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
         )}
         <Stack direction="row" align="center" cursor="pointer" fontWeight={600} color="gray.500">
           <Icon as={TbFileLike} fontSize={25} color="Blue" onClick={handleVote} />
-          <Text fontSize="18pt" ml={1}>{votes}</Text>
+          <Text _hover={{ color: "#8124f2" }} fontSize="18pt" ml={1}>{votes}</Text>
           {userId === comment.creatorId && (
             <>
               {!isEditing && (
