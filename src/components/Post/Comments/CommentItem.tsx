@@ -18,6 +18,8 @@ import {
   IoArrowUpCircleOutline,
 } from "react-icons/io5";
 import { TiEdit } from "react-icons/ti";
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { firestore } from '../../../firebase/clientApp'; // Import your Firebase config
 
 export type Comment = {
   id: string;
@@ -28,6 +30,7 @@ export type Comment = {
   postId: string;
   postTitle: string;
   text: string;
+  commentVotes?: number;
   createdAt?: Timestamp;
 };
 
@@ -48,6 +51,29 @@ const CommentItem: React.FC<CommentItemProps> = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(comment.text);
+  const [votes, setVotes] = useState(comment.commentVotes || 0);
+  const [userVoted, setUserVoted] = useState(false);
+
+  const handleVote = async () => {
+    if (!userVoted && votes < 3) {
+      // Increment votes locally
+      setVotes((prevVotes) => prevVotes + 1);
+      // Mark user as voted
+      setUserVoted(true);
+
+      try {
+        // Reference to a specific comment document
+        const commentDocRef = doc(collection(firestore, 'comments'), comment.id);
+
+        // Update the document with the new vote count
+        await updateDoc(commentDocRef, {
+          commentVotes: votes + 1,
+        });
+      } catch (error) {
+        console.error("Error updating document: ", error);
+      }
+    }
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -59,19 +85,17 @@ const CommentItem: React.FC<CommentItemProps> = ({
   };
 
   return (
-
     <Flex>
       <Flex>
-      {comment.creatorPhotoURL ? (
-        <Avatar src={comment.creatorPhotoURL} size="xl" boxSize={16} mr={3} marginTop={4} border="4px"
-        borderColor="black" borderRadius="0" />
-      ) : (
-        <Box mr={3}>
-          <Icon as={BiUserVoice} fontSize={55} color="Green" />
-        </Box>
-      )}
-    </Flex>
-
+        {comment.creatorPhotoURL ? (
+          <Avatar src={comment.creatorPhotoURL} size="xl" boxSize={16} mr={3} marginTop={4} border="4px"
+            borderColor="black" borderRadius="0" />
+        ) : (
+          <Box mr={3}>
+            <Icon as={BiUserVoice} fontSize={55} color="Green" />
+          </Box>
+        )}
+      </Flex>
 
       <Stack spacing={1}>
         <Stack direction="row" align="center" spacing={2}>
@@ -85,7 +109,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           </Text>
           {comment.createdAt?.seconds && (
             <Text color="Blue" fontSize="12pt" fontFamily="Raleway', sans-serif">
-              Time : {moment(new Date(comment.createdAt?.seconds * 1000)).fromNow()}
+              Time: {moment(new Date(comment.createdAt?.seconds * 1000)).fromNow()}
             </Text>
           )}
           {isLoading && <Spinner size="sm" />}
@@ -103,14 +127,9 @@ const CommentItem: React.FC<CommentItemProps> = ({
         ) : (
           <Text fontSize="18pt">{comment.text}</Text>
         )}
-        <Stack
-          direction="row"
-          align="center"
-          cursor="pointer"
-          fontWeight={600}
-          color="gray.500"
-        >
-          <Icon as={IoArrowUpCircleOutline} fontSize={25} color="Blue" />
+        <Stack direction="row" align="center" cursor="pointer" fontWeight={600} color="gray.500">
+          <Icon as={IoArrowUpCircleOutline} fontSize={25} color="Blue" onClick={handleVote} />
+          <Text fontSize="18pt" ml={1}>{votes}</Text>
           {userId === comment.creatorId && (
             <>
               {!isEditing && (
