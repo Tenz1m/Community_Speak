@@ -20,6 +20,7 @@ import {
 import { TiEdit } from "react-icons/ti";
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { firestore } from '../../../firebase/clientApp'; // Import your Firebase config
+import { TbFileLike } from "react-icons/tb";
 
 export type Comment = {
   id: string;
@@ -128,14 +129,14 @@ const CommentItem: React.FC<CommentItemProps> = ({
           <Text fontSize="18pt">{comment.text}</Text>
         )}
         <Stack direction="row" align="center" cursor="pointer" fontWeight={600} color="gray.500">
-          <Icon as={IoArrowUpCircleOutline} fontSize={25} color="Blue" onClick={handleVote} />
+          <Icon as={TbFileLike} fontSize={25} color="Blue" onClick={handleVote} />
           <Text fontSize="18pt" ml={1}>{votes}</Text>
           {userId === comment.creatorId && (
             <>
               {!isEditing && (
                 <>
                   <Icon as={TiEdit} fontSize={25} color="Green" onClick={handleEditClick} />
-                  <Text fontSize="9pt" _hover={{ color: "blue.500" }} onClick={handleEditClick}>
+                  <Text fontSize="12pt" _hover={{ color: "blue" }} onClick={handleEditClick}>
                     Edit
                   </Text>
                 </>
