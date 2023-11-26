@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Box,
-  Flex,
-  SkeletonCircle,
-  SkeletonText,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, SkeletonCircle, SkeletonText, Stack, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import {
   collection,
@@ -32,11 +25,7 @@ type CommentsProps = {
   community: string;
 };
 
-const Comments: React.FC<CommentsProps> = ({
-  user,
-  selectedPost,
-  community,
-}) => {
+const Comments: React.FC<CommentsProps> = ({ user, selectedPost, community }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentFetchLoading, setCommentFetchLoading] = useState(false);
@@ -44,6 +33,8 @@ const Comments: React.FC<CommentsProps> = ({
   const [deleteLoading, setDeleteLoading] = useState("");
   const setAuthModalState = useSetRecoilState(authModalState);
   const setPostState = useSetRecoilState(postState);
+
+  const [editedComment, setEditedComment] = useState<Comment | null>(null);
 
   const onCreateComment = async (comment: string) => {
     if (!user) {
@@ -108,6 +99,24 @@ const Comments: React.FC<CommentsProps> = ({
     setCommentCreateLoading(false);
   };
 
+  const onUpdateComment = async (commentId: string, newText: string) => {
+    try {
+      const updatedComments = comments.map((item) =>
+        item.id === commentId ? { ...item, text: newText } : item
+      );
+      setComments(updatedComments);
+
+      const batch = writeBatch(firestore);
+      const commentDocRef = doc(firestore, "comments", commentId);
+      batch.update(commentDocRef, { text: newText });
+      await batch.commit();
+
+      setEditedComment(null);
+    } catch (error: any) {
+      console.log("onUpdateComment error", error.message);
+    }
+  };
+
   const onDeleteComment = useCallback(
     async (comment: Comment) => {
       setDeleteLoading(comment.id as string);
@@ -133,10 +142,8 @@ const Comments: React.FC<CommentsProps> = ({
         }));
 
         setComments((prev) => prev.filter((item) => item.id !== comment.id));
-        // return true;
       } catch (error: any) {
         console.log("Error deletig comment", error.message);
-        // return false;
       }
       setDeleteLoading("");
     },
@@ -145,6 +152,7 @@ const Comments: React.FC<CommentsProps> = ({
 
   const getPostComments = async () => {
     try {
+      setCommentFetchLoading(true);
       const commentsQuery = query(
         collection(firestore, "comments"),
         where("postId", "==", selectedPost.id),
@@ -163,21 +171,12 @@ const Comments: React.FC<CommentsProps> = ({
   };
 
   useEffect(() => {
-    console.log("HERE IS SELECTED POST", selectedPost.id);
-
     getPostComments();
-  }, []);
+  }, [selectedPost.id]);
 
   return (
     <Box bg="white" p={2} borderRadius="0px 0px 4px 4px">
-      <Flex
-        direction="column"
-        pl={10}
-        pr={4}
-        mb={6}
-        fontSize="10pt"
-        width="100%"
-      >
+      <Flex direction="column" pl={10} pr={4} mb={6} fontSize="10pt" width="100%">
         <CommentInput
           comment={comment}
           setComment={setComment}
@@ -205,8 +204,11 @@ const Comments: React.FC<CommentsProps> = ({
                     key={item.id}
                     comment={item}
                     onDeleteComment={onDeleteComment}
+                    onUpdateComment={onUpdateComment}
                     isLoading={deleteLoading === (item.id as string)}
                     userId={user?.uid}
+                    
+                    
                   />
                 ))}
               </>
@@ -230,4 +232,5 @@ const Comments: React.FC<CommentsProps> = ({
     </Box>
   );
 };
+
 export default Comments;

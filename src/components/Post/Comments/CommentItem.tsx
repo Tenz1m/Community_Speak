@@ -7,19 +7,21 @@ import {
   Spinner,
   Stack,
   Text,
+  Input,
+  Button,
 } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
 import moment from "moment";
-import { FaReddit } from "react-icons/fa";
 import { BiUserVoice } from "react-icons/bi";
 import { TbUserExclamation } from "react-icons/tb";
 import {
   IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
 } from "react-icons/io5";
+import { TiEdit } from "react-icons/ti";
 
 export type Comment = {
-  id?: string;
+  id: string;
   creatorId: string;
   creatorDisplayText: string;
   creatorPhotoURL: string;
@@ -33,6 +35,7 @@ export type Comment = {
 type CommentItemProps = {
   comment: Comment;
   onDeleteComment: (comment: Comment) => void;
+  onUpdateComment: (commentId: string, newText: string) => void;
   isLoading: boolean;
   userId?: string;
 };
@@ -40,25 +43,21 @@ type CommentItemProps = {
 const CommentItem: React.FC<CommentItemProps> = ({
   comment,
   onDeleteComment,
+  onUpdateComment,
   isLoading,
   userId,
 }) => {
-  // const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState(comment.text);
 
-  // const handleDelete = useCallback(async () => {
-  //   setLoading(true);
-  //   try {
-  //     const success = await onDeleteComment(comment);
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
 
-  //     if (!success) {
-  //       throw new Error("Error deleting comment");
-  //     }
-  //   } catch (error: any) {
-  //     console.log(error.message);
-  //     // setError
-  //     setLoading(false);
-  //   }
-  // }, [setLoading]);
+  const handleSaveClick = () => {
+    onUpdateComment(comment.id, editedText);
+    setIsEditing(false);
+  };
 
   return (
     <Flex>
@@ -66,23 +65,35 @@ const CommentItem: React.FC<CommentItemProps> = ({
         <Icon as={BiUserVoice} fontSize={55} color="Green" />
       </Box>
       <Stack spacing={1}>
-        <Stack direction="row" align="center" spacing={2} >
+        <Stack direction="row" align="center" spacing={2}>
           <Text
-            fontFamily="Body Font Name" 
+            fontFamily="Body Font Name"
             fontSize="18pt"
             fontWeight={700}
             _hover={{ textDecoration: "underline", cursor: "pointer" }}
           >
             {comment.creatorDisplayText}
-          </Text > 
+          </Text>
           {comment.createdAt?.seconds && (
-            <Text color="Blue" fontSize="12pt" fontFamily="Raleway', sans-serif" >
+            <Text color="Blue" fontSize="12pt" fontFamily="Raleway', sans-serif">
               Time : {moment(new Date(comment.createdAt?.seconds * 1000)).fromNow()}
             </Text>
           )}
           {isLoading && <Spinner size="sm" />}
         </Stack>
-        <Text fontSize="18pt" >{comment.text}</Text>
+        {isEditing ? (
+          <Stack direction="row" align="center" spacing={2}>
+            <Input
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+            />
+            <Button onClick={handleSaveClick} colorScheme="teal">
+              Save
+            </Button>
+          </Stack>
+        ) : (
+          <Text fontSize="18pt">{comment.text}</Text>
+        )}
         <Stack
           direction="row"
           align="center"
@@ -90,13 +101,17 @@ const CommentItem: React.FC<CommentItemProps> = ({
           fontWeight={600}
           color="gray.500"
         >
-          {/* <Icon as={IoArrowUpCircleOutline} />
-          <Icon as={IoArrowDownCircleOutline} /> */}
+          <Icon as={IoArrowUpCircleOutline} fontSize={25} color="Blue" />
           {userId === comment.creatorId && (
             <>
-              {/* <Text fontSize="9pt" _hover={{ color: "blue.500" }}>
-                Edit
-              </Text> */}
+              {!isEditing && (
+                <>
+                  <Icon as={TiEdit} fontSize={25} color="Green" onClick={handleEditClick} />
+                  <Text fontSize="9pt" _hover={{ color: "blue.500" }}>
+                    Edit
+                  </Text>
+                </>
+              )}
               <Icon as={TbUserExclamation} fontSize={25} color="Red" />
               <Text
                 fontSize="12pt"
@@ -112,4 +127,5 @@ const CommentItem: React.FC<CommentItemProps> = ({
     </Flex>
   );
 };
+
 export default CommentItem;
