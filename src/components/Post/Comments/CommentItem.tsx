@@ -15,7 +15,6 @@ import moment from "moment";
 import { BiUserVoice } from "react-icons/bi";
 import { TbUserExclamation } from "react-icons/tb";
 import {
-  IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
 } from "react-icons/io5";
 import { TiEdit } from "react-icons/ti";
@@ -60,10 +59,20 @@ const CommentItem: React.FC<CommentItemProps> = ({
   };
 
   return (
+
     <Flex>
-      <Box mr={3}>
-        <Icon as={BiUserVoice} fontSize={55} color="Green" />
-      </Box>
+      <Flex>
+      {comment.creatorPhotoURL ? (
+        <Avatar src={comment.creatorPhotoURL} size="xl" boxSize={16} mr={3} marginTop={4} border="4px"
+        borderColor="black" borderRadius="0" />
+      ) : (
+        <Box mr={3}>
+          <Icon as={BiUserVoice} fontSize={55} color="Green" />
+        </Box>
+      )}
+    </Flex>
+
+
       <Stack spacing={1}>
         <Stack direction="row" align="center" spacing={2}>
           <Text
@@ -107,7 +116,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
               {!isEditing && (
                 <>
                   <Icon as={TiEdit} fontSize={25} color="Green" onClick={handleEditClick} />
-                  <Text fontSize="9pt" _hover={{ color: "blue.500" }}>
+                  <Text fontSize="9pt" _hover={{ color: "blue.500" }} onClick={handleEditClick}>
                     Edit
                   </Text>
                 </>
