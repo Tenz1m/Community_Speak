@@ -414,8 +414,8 @@ const About: React.FC<AboutProps> = ({
                       </Text>
                       {communityData?.imageURL || selectedFile ? (
                         <Image
-                          borderRadius="full"
-                          boxSize="70px"
+                          borderRadius="5"
+                          boxSize="80px"
                           src={selectedFile || communityData?.imageURL}
                           alt="Community Image"
                         />
