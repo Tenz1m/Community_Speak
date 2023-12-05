@@ -67,14 +67,14 @@ const icons: React.FC = () => {
 
 
         {/* Chat Application */}
-      {/* <IconItem
+      <IconItem
           iconColor="#F79B0D"
           icon={BsChatSquareDots}
           fontSize={25}
           onClick={() => {
-            router.push("/chat/ai");
+            router.push("https://chat-user-1.vercel.app/");
           }}
-        /> */}
+        />
 
 
 
