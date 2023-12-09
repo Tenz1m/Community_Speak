@@ -34,14 +34,14 @@ const icons: React.FC = () => {
 
 
         {/* NewsPaper for recent news around the World */}
-       <IconItem
+       {/* <IconItem
           iconColor="red"
           icon={BsNewspaper}
           fontSize={30}
           onClick={() => {
             router.push("/news");
           }}
-        />
+        /> */}
 
           {/* Ai Based Quize on Different Topics */}
         <IconItem
@@ -90,14 +90,14 @@ const icons: React.FC = () => {
 
 
          {/* Bus Location Tracker */}
-      <IconItem
+      {/* <IconItem
           iconColor="red"
           icon={FaBusAlt}
           fontSize={25}
           onClick={() => {
             router.push("/Bus/location");
           }}
-        />
+        /> */}
 
 
       <IconItem
