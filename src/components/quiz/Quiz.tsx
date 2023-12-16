@@ -257,7 +257,7 @@ const Quiz: React.FC<QuizProps> = ({ numberOfQuestions }) => {
       </button>
       <div style={{ fontSize: "18px", marginBottom: "20px", color: "#ED0800" }}>
         Current Score: {score} / {numberOfQuestions} 
-        <br />{correctAnswer}
+        <br />
       </div>
       {showConfetti && (
         <Confetti
