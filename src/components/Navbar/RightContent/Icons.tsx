@@ -34,14 +34,14 @@ const icons: React.FC = () => {
 
 
         {/* NewsPaper for recent news around the World */}
-       {/* <IconItem
+       <IconItem
           iconColor="red"
           icon={BsNewspaper}
           fontSize={30}
           onClick={() => {
-            router.push("/news");
+            router.push("http://localhost:3000/news");
           }}
-        /> */}
+        />
 
           {/* Ai Based Quize on Different Topics */}
         <IconItem
