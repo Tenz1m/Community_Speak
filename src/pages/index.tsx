@@ -76,7 +76,7 @@ const Home: NextPage = () => {
               query(
                 collection(firestore, "posts"),
                 where("communityId", "==", myCommunityIds[index]),
-                limit(3),
+                limit(2),
               )
             )
           );
