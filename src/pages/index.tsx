@@ -45,45 +45,45 @@ const Home: NextPage = () => {
     setLoading(true);
     try {
       const feedPosts: Post[] = [];
-  
+
       if (communityStateValue.mySnippets.length) {
         const myCommunityIds = communityStateValue.mySnippets.map(
           (snippet) => snippet.communityId
         );
-  
+
         // Shuffling the order of community indices
         const shuffledCommunityIndices = myCommunityIds
           .map((_, index) => index)
           .sort(() => Math.random() - 0.5);
-  
+
         const usedIndices: number[] = [];
-  
+
         let postPromises: Array<Promise<QuerySnapshot<DocumentData>>> = [];
-  
+
         // Fetching posts from the first 3 shuffled communities
         for (let i = 0; i < 12 && i < shuffledCommunityIndices.length; i++) {
           let index: number;
-  
+
           do {
             // Get a random index that hasn't been used yet
             index = shuffledCommunityIndices[i];
           } while (usedIndices.includes(index));
-  
+
           usedIndices.push(index);
-  
+
           postPromises.push(
             getDocs(
               query(
                 collection(firestore, "posts"),
                 where("communityId", "==", myCommunityIds[index]),
-                limit(2),
+                limit(1),
               )
             )
           );
         }
-  
+
         const queryResults = await Promise.all(postPromises);
-  
+
         queryResults.forEach((result) => {
           const posts = result.docs.map((doc) => ({
             id: doc.id,
@@ -91,9 +91,9 @@ const Home: NextPage = () => {
           })) as Post[];
           feedPosts.push(...posts);
         });
-      
 
-        
+
+
         // Do Random post After
         const postQuery = query(
           collection(firestore, "posts"),
@@ -107,9 +107,9 @@ const Home: NextPage = () => {
         })) as Post[];
         feedPosts.push(...posts);
       }
-      
+
       // This part might be not used |>
-    // } than use this
+      // } than use this
 
 
 
@@ -256,8 +256,8 @@ const Home: NextPage = () => {
       </>
       <Stack spacing={3} position="sticky" top="10px">
         <Recommendations />
-        <DigitalClock/>
-        <Calender/>
+        <DigitalClock />
+        <Calender />
         {/* <Weather/> */}
         {/* <Quize /> */}
         {/* <Bus /> */}
