@@ -161,8 +161,8 @@ const PostItem: React.FC<PostItemContentProps> = ({
               )}
               {/* <Text as='mark' color="Blue" fontSize="12pt" fontWeight={600}> */}
               <Text as='b' textTransform="uppercase" color="Green" fontSize="18pt" fontWeight={600}>
-                Posted by {post.userDisplayText} /
-               ({post.creatorUsername})
+                Posted by {post.userDisplayText} 
+                {/* /({post.creatorUsername}) */}
                 {/* {moment(new Date(post.createdAt.seconds * 1000)).fromNow()} */}
               </Text>
             </Stack>

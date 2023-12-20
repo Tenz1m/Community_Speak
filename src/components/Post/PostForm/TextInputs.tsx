@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Stack, Input, Textarea, Flex, Button, Box, Text } from "@chakra-ui/react";
 import axios from 'axios';
+import localProfanityList from './pt'; // Import the localProfanityList from profanityList.ts
 
 type TextInputsProps = {
   textInputs: {
@@ -13,13 +14,6 @@ type TextInputsProps = {
   handleCreatePost: () => void;
   loading: boolean;
 };
-
-const localProfanityList = [
-  "fuck", "bitch", "shit", "son of a bitch", "bugger",
-  "pissed", "damn", "jesus christ", "bloody hell", "cunt", "bastard", "fuckface",
-  "jerk", "nerd", "bimbo", "show off", "creepy", "loser", "suck",
-  "magi", "sala", "foinni", "kutta", "besha", "khanki", "bolod"
-];
 
 const hasLocalProfanity = (text: string): boolean => {
   const lowerCaseText = text.toLowerCase();
@@ -47,9 +41,6 @@ const TextInputs: React.FC<TextInputsProps> = ({
   useEffect(() => {
     const checkApiProfanity = async () => {
       try {
-
-        // Using TextRazor Api To modirate words
-        
         const response = await axios.post('https://api.textrazor.com/v1/check', {
           text: `${textInputs.title} ${textInputs.body}`,
           extractors: ["profanity"]
@@ -106,7 +97,7 @@ const TextInputs: React.FC<TextInputsProps> = ({
       />
       {isProfanity && (
         <Box>
-          <Text color="red">Warning: Inappropriate words detected!!! . You Cannot post that.</Text>
+          <Text color="red">Warning: Inappropriate words detected. You Cannot post that.</Text>
         </Box>
       )}
       <Flex justify="flex-end">
